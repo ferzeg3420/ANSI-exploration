@@ -1,0 +1,229 @@
+#!/bin/sh
+
+
+colors="Black Red Green Yellow Blue Purple Cyan White"
+
+hide_user_input_wait_for_enter() {
+    stty_orig=$(stty -g)
+    stty -echo
+    read -r
+    stty "$stty_orig"
+}
+
+do_continue_effect() {
+    # reverse colors and make cursor disappear. V
+    printf "\n\e[7m(enter to continue)\e[0m\e[?25l\n"
+    hide_user_input_wait_for_enter
+    printf "\e[?25h" # < Makes the cursor reappear.
+    clear
+}
+
+regular_colors() {
+    clear
+    echo
+    printf "## Regular Colors:\n"
+    echo
+    j=30
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[0;${j}m${color}\e[0m is ${color}\\ \n" "-"
+        echo "\`printf \"\e[0;${j}m${color}\e[0m is ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+bold_colors() {
+    clear
+    echo
+    printf "## Bold Colors:\n"
+    echo
+    j=30
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[1;${j}m${color}\e[0m is bold ${color}\\ \n" "-"
+        echo "\`printf \"\e[1;${j}m${color}\e[0m is bold ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+underlined_colors() {
+    clear
+    echo
+    printf "## Underlined Colors:\n"
+    echo
+    j=30
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[4;${j}m${color}\e[0m is underlined ${color}\\ \n" "-"
+        echo "\`printf \"\e[4;${j}m${color}\e[0m is underlined ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+background_colors() {
+    clear
+    echo
+    printf "## Background Colors:\n"
+    echo
+    j=40
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[${j}m${color}\e[0m is bg ${color}\\ \n" "-"
+        echo "\`printf \"\e[${j}m${color}\e[0m is bg ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+intense_colors() {
+    clear
+    echo
+    printf "## High Intensity Colors:\n"
+    echo
+    j=90
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[0;${j}m${color}\e[0m is high ${color}\\ \n" "-"
+        echo "\`printf \"\e[0;${j}m${color}\e[0m is high ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+intense_bold() {
+    clear
+    echo
+    printf "## Bold High Intensity Colors:\n"
+    echo
+    j=90
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[1;${j}m${color}\e[0m is bold high ${color}\\ \n" "-"
+        echo "\`printf \"\e[1;${j}m${color}\e[0m is bold high ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+    
+intense_background() {
+    clear
+    echo
+    printf "## Intense Background Colors:\n"
+    echo
+    j=100
+    for i in $(seq 1 8)
+    do
+        color="$(echo "$colors" | cut -d" " -f "$i")"
+        printf "%s \e[0;${j}m${color}\e[0m is bg high ${color}\\ \n" "-"
+        echo "\`printf \"\e[0;${j}m${color}\e[0m is bg high ${color}\"\`"
+        echo
+        j=$((j+1))
+    done
+}
+
+show_misc() {
+    clear
+    echo
+    printf "## Misc stuff:\n"
+    echo
+    echo "\`printf \"\e[7mReverse colors\"\`"
+    echo
+    echo "\`printf \"\e[?25lmMake the cursor disappear\"\`"
+    echo
+    echo "\`printf \"\e[?25hMake the cursor reappear\"\`"
+    echo
+    echo "\`printf \"\e[38;2;{r};{g};{b}mRGB foreground colors\"\`"
+    echo
+    echo "\`printf \"\e[48;2;{r};{g};{b}mRGB background colors\"\`"
+    echo
+    echo "\`printf \"\\\aBell sound\"\`"
+    echo
+}
+
+main() {
+    clear
+    echo
+    printf "# ANSI Colors\n"
+    echo
+    printf "## Blinking letters:\n"
+    echo
+    printf "%s \e[5mI\'m so cool!\e[0m\\ \n" "-"
+    echo "\`printf \"\e[5m Make text blink\"\"\`"
+    echo
+    printf "## Reset colors/effects:\n"
+    echo
+    printf "%s \e[0mReset\\ \n" "-"
+    echo "\`printf \"\e[0m is a reset \"signal/marker\"\"\`"
+    while true
+    do
+        echo
+        echo "Select a page (q to exit):"
+        printf "1) %s\n" "regular colors"
+        printf "2) %s\n" "bold colors"
+        printf "3) %s\n" "underlined colors"
+        printf "4) %s\n" "background colors"
+        printf "5) %s\n" "intense colors"
+        printf "6) %s\n" "intense bold colors"
+        printf "7) %s\n" "intense background colors"
+        printf "8) %s\n" "Miscellaneous"
+        echo
+        printf "> "
+        read -r opt
+        case "$opt" in 
+            1 ) 
+                regular_colors
+                do_continue_effect
+                ;;
+            2 ) 
+                bold_colors
+                do_continue_effect
+                ;;
+            3 ) 
+                underlined_colors
+                do_continue_effect
+                ;;
+            4 ) 
+                background_colors
+                do_continue_effect
+                ;;
+            5 ) 
+                intense_colors
+                do_continue_effect
+                ;;
+            6 ) 
+                intense_bold
+                do_continue_effect
+                ;;
+            7 ) 
+                intense_background
+                do_continue_effect
+                ;;
+            8 ) 
+                show_misc
+                do_continue_effect
+                ;;
+            q )
+                clear
+                exit 0
+                ;;
+            * ) 
+                clear
+                echo "You had one job! (q to exit)"
+                read -r IS_Q
+                test "$IS_Q" = "q" && exit 1
+                clear
+                ;;
+        esac
+    done
+}
+
+main
