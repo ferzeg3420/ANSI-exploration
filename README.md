@@ -44,6 +44,6 @@ internet if you don't know what they do. In this case it
 is okay (but you should still read through the code here
 and understand what's going on fully).
 
-️  Probably does not work on Windows? (without
+:warning: Probably does not work on Windows? (without
 [wsl](https://duckduckgo.com/?q=windows+subsystem+for+linux&ia=web) or
 something like that).
