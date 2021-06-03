@@ -1,6 +1,7 @@
 # POSIX shell ANSI exploration
 
-I used this amazing person's work to write this program:
+I used this amazing person's list of ANSI escape characters to write
+this program:
 
 [Zhee](https://gist.github.com/zchee/ea41b5c598b43006d029c8990377aa90)
 
